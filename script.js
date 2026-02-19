@@ -424,11 +424,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           submitBtn.textContent = "전송 중...";
         }
 
-        // ⚠️ headers 넣지마 (FormData boundary 자동)
-        const res = await fetch("http://localhost:5000/api/contact", {
-          method: "POST",
-          body: fd,
-        });
+        const res = await fetch("/api/send-mail", {
+  method: "POST",
+  body: fd,
+});
+
 
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.ok) throw new Error(data.error || "전송 실패");
@@ -482,20 +482,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 초기: 해시 있으면 그거, 없으면 첫 탭
   activate(location.hash);
-})();
-// index: 아래 이미지(포토스트립/갤러리)만 클릭 이동 차단 + 문의하기는 예외
-(function(){
-  document.addEventListener("click", (e) => {
-    const root = e.target.closest(".js-noNav");
-    if(!root) return;
-
-    const a = e.target.closest("a");
-    if(!a) return;
-
-    // 문의하기는 예외(정상 이동)
-    if(a.classList.contains("js-allowNav")) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-  }, true);
 })();
