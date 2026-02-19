@@ -5739,3 +5739,9 @@ body.sitemap-open .header{
   background: var(--tint);
   border-color: rgba(31,94,59,.18);
 }
+.logo__mark{
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  object-fit: contain;
+}

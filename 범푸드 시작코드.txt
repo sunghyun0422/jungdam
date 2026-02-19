@@ -4,3 +4,9 @@ https://wnsqja69451.wixsite.com/bum-food-2
 시작코드
 start index.html
 npx serve
+
+
+업로드 
+git add .
+git commit -m "update favicon"
+git push
