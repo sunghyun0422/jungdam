@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SEARCH | 정담</title>
+  <meta name="description" content="정담 통합 검색" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+
+  <div id="header"></div>
+
+  <main id="main" class="container" style="padding:28px 16px 60px;">
+    <h1 style="margin:0 0 10px;font-size:26px;font-weight:900;">검색</h1>
+    <p id="qText" style="margin:0 0 18px;opacity:.7;"></p>
+
+    <form action="./search.html" method="get" style="display:flex;gap:10px;max-width:720px;">
+      <input
+        name="q"
+        id="q"
+        type="search"
+        placeholder="검색어를 입력하세요"
+        style="flex:1;height:48px;border-radius:16px;border:1px solid rgba(0,0,0,.12);padding:0 14px;font-size:15px;"
+      />
+      <button type="submit" style="height:48px;padding:0 16px;border-radius:16px;border:1px solid rgba(0,0,0,.12);background:#111;color:#fff;font-weight:800;cursor:pointer;">
+        검색
+      </button>
+    </form>
+
+    <div id="result" style="margin-top:18px;"></div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./script.js"></script>
+  <script>
+    const pages = [
+      { title:"Company - Story", url:"./company.html", tags:["company","스토리","소개","정담"] },
+      { title:"Company - Core Value", url:"./company-value.html", tags:["core","value","핵심가치","가치"] },
+      { title:"Company - History", url:"./company-history.html", tags:["history","연혁","히스토리"] },
+
+      { title:"Business - 사업영역", url:"./business-areas.html", tags:["business","areas","사업영역"] },
+      { title:"Business - 프로젝트", url:"./business-projects.html", tags:["projects","프로젝트"] },
+      { title:"Business - In the making", url:"./business-making.html", tags:["making","in the making","제작","진행"] },
+      { title:"Business - 파트너십", url:"./business-partners.html", tags:["partners","파트너십","제휴"] },
+
+      { title:"ESG - 가치체계", url:"./esg-value.html", tags:["esg","가치체계"] },
+      { title:"ESG - 품질/안전", url:"./esg-quality.html", tags:["품질","안전","quality","safety"] },
+      { title:"ESG - 상생/사회공헌", url:"./esg-shared.html", tags:["상생","사회공헌","shared","contribution"] },
+
+      { title:"Contact - 문의하기", url:"./support.html", tags:["문의","contact","support"] },
+      { title:"Contact - 입점/제휴", url:"./support-partner.html", tags:["입점","제휴","partner"] },
+      { title:"Contact - 납품 상담", url:"./support-b2b.html", tags:["납품","상담","b2b"] },
+
+      { title:"Career - 인재상", url:"./recruit-talent.html", tags:["career","인재상","talent"] },
+      { title:"Career - 채용절차", url:"./recruit-process.html", tags:["채용","절차","process"] },
+      { title:"Career - 지원", url:"./recruit-apply.html", tags:["지원","apply"] },
+    ];
+
+    const params = new URLSearchParams(location.search);
+    const q = (params.get("q") || "").trim();
+    const qEl = document.getElementById("q");
+    const qText = document.getElementById("qText");
+    const result = document.getElementById("result");
+
+    qEl.value = q;
+    qText.textContent = q ? `검색어: "${q}"` : "검색어를 입력하세요.";
+
+    function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    if(!q){
+      result.innerHTML = `<p style="opacity:.7;margin:14px 0 0;">결과가 여기에 표시됩니다.</p>`;
+    }else{
+      const needle = q.toLowerCase();
+      const hits = pages.filter(p => {
+        const hay = (p.title + " " + p.tags.join(" ")).toLowerCase();
+        return hay.includes(needle);
+      });
+
+      if(hits.length === 0){
+        result.innerHTML = `<p style="margin:14px 0 0;">검색 결과가 없습니다.</p>`;
+      }else{
+        result.innerHTML = `
+          <div style="margin-top:14px;display:grid;gap:10px;max-width:900px;">
+            ${hits.map(p => `
+              <a href="${p.url}" style="display:block;text-decoration:none;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:14px 14px;background:rgba(0,0,0,.015);">
+                <div style="font-weight:900;margin-bottom:6px;">${esc(p.title)}</div>
+                <div style="opacity:.7;font-size:13px;">${esc(p.url)}</div>
+              </a>
+            `).join("")}
+          </div>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

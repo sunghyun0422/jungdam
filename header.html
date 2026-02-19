@@ -1,0 +1,148 @@
+<header class="header">
+  <div class="container header__inner">
+    <a class="logo" href="./index.html" aria-label="정담 홈">
+      <span class="logo__mark">🌿</span>
+      <span class="logo__text">정담</span>
+    </a>
+
+    <nav class="gnb" aria-label="주요 메뉴">
+      <div class="gnbItem">
+        <a class="gnbLink" href="./company.html" data-menu="company">COMPANY</a>
+        <div class="gnbDrop">
+          <a href="./company.html" data-sub="company">Story</a>
+          <a href="./company-value.html" data-sub="company-value">Core Value</a>
+          <a href="./company-history.html" data-sub="company-history">History</a>
+        </div>
+      </div>
+
+      <div class="gnbItem">
+        <a class="gnbLink" href="./business-areas.html" data-menu="business">BUSINESS</a>
+        <div class="gnbDrop">
+          <a href="./business-areas.html" data-sub="business-areas">사업영역</a>
+          <a href="./business-projects.html" data-sub="business-projects">프로젝트</a>
+          <a href="./business-making.html" data-sub="business-making">In the making</a>
+          <a href="./business-partners.html" data-sub="business-partners">파트너십</a>
+        </div>
+      </div>
+
+      <div class="gnbItem">
+        <a class="gnbLink" href="./esg-value.html" data-menu="esg">ESG</a>
+        <div class="gnbDrop">
+          <a href="./esg-value.html" data-sub="esg-value">가치체계</a>
+          <a href="./esg-quality.html" data-sub="esg-quality">품질/안전</a>
+          <a href="./esg-shared.html" data-sub="esg-shared">상생/사회공헌</a>
+        </div>
+      </div>
+
+      <div class="gnbItem">
+        <a class="gnbLink" href="./support.html" data-menu="contact">CONTACT</a>
+        <div class="gnbDrop">
+          <a href="./support.html" data-sub="support">문의하기</a>
+          <a href="./support-partner.html" data-sub="support-partner">입점/제휴</a>
+          <a href="./support-b2b.html" data-sub="support-b2b">납품 상담</a>
+        </div>
+      </div>
+
+      <div class="gnbItem">
+        <a class="gnbLink" href="./recruit-talent.html" data-menu="career">CAREER</a>
+        <div class="gnbDrop">
+          <a href="./recruit-talent.html" data-sub="recruit-talent">인재상</a>
+          <a href="./recruit-process.html" data-sub="recruit-process">채용절차</a>
+          <a href="./recruit-apply.html" data-sub="recruit-apply">지원</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="header__right">
+      <button class="iconBtn" id="openSearch" aria-label="검색" aria-expanded="false" aria-controls="searchBar">🔍</button>
+      <button class="iconBtn" id="openMenu" aria-label="사이트맵 열기" aria-expanded="false" aria-controls="drawer">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= SEARCH (Top Sheet) ================= -->
+<div id="searchBar" class="searchSheet" aria-hidden="true">
+  <button class="searchSheet__backdrop" type="button" id="closeSearchBackdrop" aria-label="닫기"></button>
+
+  <div class="searchSheet__panel" role="dialog" aria-label="검색" aria-modal="true">
+    <div class="container searchSheet__inner">
+      <form class="searchSheet__form" action="./search.html" method="get" role="search">
+        <input
+          class="searchSheet__input"
+          type="search"
+          name="q"
+          placeholder="검색어를 입력하세요"
+          autocomplete="off"
+        />
+        <button class="searchSheet__icon" type="submit" aria-label="검색">🔍</button>
+        <button class="searchSheet__icon" type="button" id="closeSearch" aria-label="닫기">✕</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div id="drawer" class="sitemapModal" aria-hidden="true">
+  <div class="sitemapModal__panel" role="dialog" aria-label="사이트맵" aria-modal="true">
+    <div class="sitemapModal__top container">
+      <div class="sitemapModal__brand">정담</div>
+      <div class="sitemapModal__title">Site Map</div>
+      <button class="iconBtn sitemapModal__close" type="button" id="closeMenu" aria-label="닫기">✕</button>
+    </div>
+
+    <div class="sitemapModal__body container">
+      <div class="sitemapCols">
+
+  <section class="sitemapCol">
+    <h3 class="sitemapCol__title">COMPANY</h3>
+    <div class="sitemapCol__list">
+      <a class="sitemapCol__link" href="./company.html">Story</a>
+      <a class="sitemapCol__link" href="./company-value.html">Core Value</a>
+      <a class="sitemapCol__link" href="./company-history.html">History</a>
+    </div>
+  </section>
+
+  <section class="sitemapCol">
+    <h3 class="sitemapCol__title">BUSINESS</h3>
+    <div class="sitemapCol__list">
+      <a class="sitemapCol__link" href="./business-areas.html">사업영역</a>
+      <a class="sitemapCol__link" href="./business-projects.html">프로젝트</a>
+      <a class="sitemapCol__link" href="./business-making.html">In the making</a>
+      <a class="sitemapCol__link" href="./business-partners.html">파트너십</a>
+    </div>
+  </section>
+
+  <section class="sitemapCol">
+    <h3 class="sitemapCol__title">ESG</h3>
+    <div class="sitemapCol__list">
+      <a class="sitemapCol__link" href="./esg-value.html">가치체계</a>
+      <a class="sitemapCol__link" href="./esg-quality.html">품질/안전</a>
+      <a class="sitemapCol__link" href="./esg-shared.html">상생/사회공헌</a>
+    </div>
+  </section>
+
+  <section class="sitemapCol">
+    <h3 class="sitemapCol__title">고객지원</h3>
+    <div class="sitemapCol__list">
+      <a class="sitemapCol__link" href="./support.html">문의하기</a>
+      <a class="sitemapCol__link" href="./support-partner.html">입점/제휴</a>
+      <a class="sitemapCol__link" href="./support-b2b.html">납품 상담</a>
+    </div>
+  </section>
+
+  <section class="sitemapCol">
+    <h3 class="sitemapCol__title">채용</h3>
+    <div class="sitemapCol__list">
+      <a class="sitemapCol__link" href="./recruit-talent.html">인재상</a>
+      <a class="sitemapCol__link" href="./recruit-process.html">채용절차</a>
+      <a class="sitemapCol__link" href="./recruit-apply.html">지원</a>
+    </div>
+  </section>
+
+</div>
+
+    </div>
+  </div>
+
+  <button class="sitemapModal__backdrop" type="button" id="closeMenuBackdrop" aria-label="닫기"></button>
+</div>

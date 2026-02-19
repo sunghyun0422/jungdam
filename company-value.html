@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>COMPANY | CORE VALUE | 정담</title>
+  <meta name="description" content="정담 코어 밸류. 정(情)과 기준으로 운영합니다." />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+
+<!-- ✅ 헤더는 공통(header.html) 로드 -->
+<div id="header"></div>
+
+<main id="main">
+
+  <!-- HERO (이미지 없이도 고급스럽게: 타이포 + 미세한 그라데이션) -->
+  <section class="cv3Hero">
+    <div class="container cv3Hero__inner">
+      <div class="crumb">
+        <a href="./index.html">HOME</a><span>/</span>
+        <a href="./company.html">COMPANY</a><span>/</span>
+        <strong>Core Value</strong>
+      </div>
+
+      <p class="cv3Kicker">COMPANY / CORE VALUE</p>
+      <h1 class="cv3Title">정담의 기준은<br>‘과정’에서 시작됩니다</h1>
+      <p class="cv3Lead">
+        좋은 결과는 우연이 아니라, 설계된 과정에서 나옵니다.<br>
+        우리는 제조·유통·운영의 모든 접점에 같은 기준을 적용합니다.
+      </p>
+
+      <div class="cv3HeroLine" aria-hidden="true"></div>
+
+      <!-- manifesto -->
+      <div class="cv3Manifest">
+        <div class="mf">
+          <p class="mf__k">We don’t chase “perfect”.</p>
+          <p class="mf__t">우리는 “완성”을 말하지 않습니다. 기준은 반복되어야 가치가 됩니다.</p>
+        </div>
+        <div class="mf">
+          <p class="mf__k">Standard is a system.</p>
+          <p class="mf__t">사람이 달라도, 현장이 달라도 흔들리지 않는 시스템을 만듭니다.</p>
+        </div>
+        <div class="mf">
+          <p class="mf__k">Process proves the result.</p>
+          <p class="mf__t">결과가 아니라 과정이 증명합니다. 그래서 우리는 과정을 설계합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE WALL (2x2) + 아래 패널 교체 -->
+  <section class="cv3WallSection">
+    <div class="container cv3WallHead">
+      <div>
+        <h2 class="cv3H2">Core Values</h2>
+        <p class="cv3P">4가지 핵심 가치를 클릭하면 아래에서 상세가 펼쳐집니다.</p>
+      </div>
+      <div class="cv3Hint" aria-hidden="true">Click to expand</div>
+    </div>
+
+    <div class="container cv3Wall" role="list">
+      <button class="cv3Tile is-on" type="button" data-key="quality" role="listitem">
+        <span class="cv3Tile__tag">QUALITY</span>
+        <span class="cv3Tile__big">일관된 품질</span>
+        <span class="cv3Tile__sub">검수–보관–출고–조리까지 하나의 기준</span>
+        <span class="cv3Tile__arrow">→</span>
+      </button>
+
+      <button class="cv3Tile" type="button" data-key="transparency" role="listitem">
+        <span class="cv3Tile__tag">TRANSPARENCY</span>
+        <span class="cv3Tile__big">투명한 과정</span>
+        <span class="cv3Tile__sub">정보·조건·소통을 명확하게 공유</span>
+        <span class="cv3Tile__arrow">→</span>
+      </button>
+
+      <button class="cv3Tile" type="button" data-key="execution" role="listitem">
+        <span class="cv3Tile__tag">EXECUTION</span>
+        <span class="cv3Tile__big">현장 실행력</span>
+        <span class="cv3Tile__sub">세팅·운영·개선의 속도로 증명</span>
+        <span class="cv3Tile__arrow">→</span>
+      </button>
+
+      <button class="cv3Tile" type="button" data-key="partnership" role="listitem">
+        <span class="cv3Tile__tag">PARTNERSHIP</span>
+        <span class="cv3Tile__big">상생 파트너십</span>
+        <span class="cv3Tile__sub">거래가 아닌, 구조로 함께 성장</span>
+        <span class="cv3Tile__arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="container cv3Panel" aria-live="polite">
+      <div class="cv3Panel__inner">
+        <div class="cv3Panel__copy">
+          <p class="cv3Key" id="cv3Key">QUALITY</p>
+          <h3 class="cv3Panel__title" id="cv3Title">일관된 품질은 표준에서 시작됩니다</h3>
+          <p class="cv3Panel__desc" id="cv3Desc">
+            같은 재료라도 관리 방식이 다르면 결과는 달라집니다.
+            정담은 핵심 공정을 표준화해 언제나 같은 품질을 만듭니다.
+          </p>
+
+          <div class="cv3Panel__grid">
+            <div class="cv3Point">
+              <strong>Standard</strong>
+              <p id="cv3P1">입고 검수 → 보관 기준 → 출고 확인까지 하나의 흐름</p>
+            </div>
+            <div class="cv3Point">
+              <strong>Control</strong>
+              <p id="cv3P2">온도/시간/동선 같은 “변수”를 줄여 결과를 고정</p>
+            </div>
+            <div class="cv3Point">
+              <strong>Repeat</strong>
+              <p id="cv3P3">누가 해도 같은 품질이 나오도록 반복 가능한 형태로 설계</p>
+            </div>
+          </div>
+
+          <ul class="cv3List" id="cv3List">
+            <li>입고 컨디션 체크 & 기준 미달 즉시 분리</li>
+            <li>보관 온도/시간 기준 운영</li>
+            <li>출고 전 최종 확인 프로세스</li>
+          </ul>
+
+          <div class="cv3Badges" id="cv3Badges">
+            <span class="cv3Badge">검수 기준</span>
+            <span class="cv3Badge">보관 기준</span>
+            <span class="cv3Badge">출고 기준</span>
+          </div>
+        </div>
+
+        <div class="cv3Panel__media">
+          <div class="cv3MediaTop">
+            <div class="cv3Photo" id="cv3Photo" style="background-image:url('./assets/gallery1.jpg');"></div>
+            <div class="cv3MiniCard">
+              <p class="cv3MiniCard__k">정담 STANDARD</p>
+              <p class="cv3MiniCard__t" id="cv3Quote">“기준이 같으면, 결과도 흔들리지 않습니다.”</p>
+            </div>
+          </div>
+
+          <div class="cv3CTA">
+            <a class="btn" href="./support.html">문의하기</a>
+            <a class="btn btn--line" href="./business-areas.html">사업영역 보기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRINCIPLES (세로 규정/리포트 느낌) -->
+  <section class="cv3Rules">
+    <div class="container cv3RulesHead">
+      <h2 class="cv3H2">Operating Principles</h2>
+      <p class="cv3P">정담이 운영에서 지키는 6가지 원칙</p>
+    </div>
+
+    <div class="container cv3RulesGrid">
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">01</div>
+        <div class="cv3Rule__body">
+          <h3>표준은 문서화한다</h3>
+          <p>경험이 아닌 시스템으로 재현 가능하게.</p>
+        </div>
+      </div>
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">02</div>
+        <div class="cv3Rule__body">
+          <h3>조건은 명확히 공유한다</h3>
+          <p>납기·수량·규격·보관 조건을 애매하게 두지 않습니다.</p>
+        </div>
+      </div>
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">03</div>
+        <div class="cv3Rule__body">
+          <h3>현장 피드백으로 개선한다</h3>
+          <p>불편은 ‘발견 즉시’ 개선합니다.</p>
+        </div>
+      </div>
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">04</div>
+        <div class="cv3Rule__body">
+          <h3>낭비를 줄이는 구조를 만든다</h3>
+          <p>수요 기반 공급과 운영 설계로 재고·폐기를 최소화합니다.</p>
+        </div>
+      </div>
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">05</div>
+        <div class="cv3Rule__body">
+          <h3>안전은 기본값이다</h3>
+          <p>위생/보관/동선은 ‘선택’이 아닌 기본입니다.</p>
+        </div>
+      </div>
+      <div class="cv3Rule">
+        <div class="cv3Rule__no">06</div>
+        <div class="cv3Rule__body">
+          <h3>파트너는 함께 성장한다</h3>
+          <p>단기 거래가 아니라, 장기 구조로 설계합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ✅ 푸터도 공통(footer.html) 로드 -->
+<div id="footer"></div>
+
+<script src="./script.js"></script>
+<script>
+/* company-value.html 전용: Core Value 타일 클릭 -> 상세 패널 교체 + 스크롤 */
+(() => {
+  const tiles = Array.from(document.querySelectorAll(".cv3Tile"));
+  const panel = document.querySelector(".cv3Panel");
+  if (!tiles.length || !panel) return;
+
+  const el = {
+    key: document.getElementById("cv3Key"),
+    title: document.getElementById("cv3Title"),
+    desc: document.getElementById("cv3Desc"),
+    p1: document.getElementById("cv3P1"),
+    p2: document.getElementById("cv3P2"),
+    p3: document.getElementById("cv3P3"),
+    list: document.getElementById("cv3List"),
+    badges: document.getElementById("cv3Badges"),
+    photo: document.getElementById("cv3Photo"),
+    quote: document.getElementById("cv3Quote"),
+  };
+
+  const DATA = {
+    quality: {
+      key: "QUALITY",
+      title: "일관된 품질은 표준에서 시작됩니다",
+      desc:
+        "같은 재료라도 관리 방식이 다르면 결과는 달라집니다. 정담은 핵심 공정을 표준화해 언제나 같은 품질을 만듭니다.",
+      points: [
+        "입고 검수 → 보관 기준 → 출고 확인까지 하나의 흐름",
+        "온도/시간/동선 같은 “변수”를 줄여 결과를 고정",
+        "누가 해도 같은 품질이 나오도록 반복 가능한 형태로 설계",
+      ],
+      list: [
+        "입고 컨디션 체크 & 기준 미달 즉시 분리",
+        "보관 온도/시간 기준 운영",
+        "출고 전 최종 확인 프로세스",
+      ],
+      badges: ["검수 기준", "보관 기준", "출고 기준"],
+      photo: "./assets/gallery1.jpg",
+      quote: "“기준이 같으면, 결과도 흔들리지 않습니다.”",
+    },
+
+    transparency: {
+      key: "TRANSPARENCY",
+      title: "조건과 과정은 명확하게 공유합니다",
+      desc:
+        "납기·수량·규격·보관 조건이 흐릿하면 현장에서 문제가 생깁니다. 정담은 합의된 기준을 문서로 남기고 같은 언어로 운영합니다.",
+      points: [
+        "규격/라벨/납기/보관 조건을 동일한 포맷으로 정리",
+        "이슈는 숨기지 않고 원인-대응-재발방지까지 공유",
+        "결정 사항은 기록으로 남겨 반복 가능한 운영으로 전환",
+      ],
+      list: [
+        "주문·납기·규격 체크리스트 운영",
+        "변경 사항 사전 공지 및 승인 절차",
+        "이슈 리포트(원인/조치/재발방지) 공유",
+      ],
+      badges: ["조건 합의", "변경 관리", "이슈 리포트"],
+      photo: "./assets/gallery2.jpg",
+      quote: "“애매함을 없애면, 현장이 빨라집니다.”",
+    },
+
+    execution: {
+      key: "EXECUTION",
+      title: "현장은 ‘속도’가 아니라 ‘정확도’로 움직입니다",
+      desc:
+        "실행력은 사람이 뛰어나서가 아니라 구조가 좋아서 나옵니다. 정담은 세팅-운영-개선이 끊기지 않도록 현장 루틴을 설계합니다.",
+      points: [
+        "오픈/세팅/피크타임 운영의 표준 동선과 역할 정의",
+        "문제가 생기면 임시 대응이 아니라 프로세스로 수정",
+        "교육-점검-피드백으로 운영 숙련도를 끌어올림",
+      ],
+      list: [
+        "오픈/마감 체크리스트 루틴화",
+        "현장 KPI(폐기/컴플레인/리드타임) 기반 개선",
+        "교육 자료 표준화 및 신규 투입 속도 개선",
+      ],
+      badges: ["현장 루틴", "교육 표준", "개선 사이클"],
+      photo: "./assets/gallery3.jpg",
+      quote: "“현장에서는 ‘되는 방식’이 가장 중요합니다.”",
+    },
+
+    partnership: {
+      key: "PARTNERSHIP",
+      title: "거래가 아니라 구조로 함께 성장합니다",
+      desc:
+        "파트너십은 가격만으로 유지되지 않습니다. 서로의 리스크를 줄이고 지속 가능한 운영 구조를 만드는 것이 정담의 방식입니다.",
+      points: [
+        "단기 매출보다 장기 품질·공급 안정성을 우선",
+        "공정/물류/운영에서 발생하는 리스크를 함께 설계",
+        "성과는 공유하고 기준은 함께 고도화",
+      ],
+      list: [
+        "공급 안정화를 위한 생산/납기 협의",
+        "공동 개선(규격/포장/동선) 프로젝트",
+        "장기 운영을 위한 커뮤니케이션 채널 정례화",
+      ],
+      badges: ["공급 안정", "공동 개선", "정례 소통"],
+      photo: "./assets/gallery4.jpg",
+      quote: "“좋은 파트너십은 운영을 더 단단하게 만듭니다.”",
+    },
+  };
+
+  function setActiveTile(clicked) {
+    tiles.forEach((t) => {
+      const on = t === clicked;
+      t.classList.toggle("is-on", on);
+      t.setAttribute("aria-expanded", on ? "true" : "false");
+    });
+  }
+
+  function render(key) {
+    const d = DATA[key];
+    if (!d) return;
+
+    el.key.textContent = d.key;
+    el.title.textContent = d.title;
+    el.desc.textContent = d.desc;
+
+    el.p1.textContent = d.points[0] || "";
+    el.p2.textContent = d.points[1] || "";
+    el.p3.textContent = d.points[2] || "";
+
+    el.list.innerHTML = d.list.map((txt) => `<li>${txt}</li>`).join("");
+    el.badges.innerHTML = d.badges.map((b) => `<span class="cv3Badge">${b}</span>`).join("");
+
+    if (d.photo) el.photo.style.backgroundImage = `url('${d.photo}')`;
+    el.quote.textContent = d.quote || "";
+  }
+
+  function scrollToPanel() {
+    const y = panel.getBoundingClientRect().top + window.pageYOffset;
+    const headerH = document.querySelector(".header")?.offsetHeight || 0;
+    const offset = headerH + 16;
+
+    window.scrollTo({
+      top: Math.max(0, y - offset),
+      behavior: "smooth",
+    });
+
+    el.title.setAttribute("tabindex", "-1");
+    el.title.focus({ preventScroll: true });
+  }
+
+  tiles.forEach((t) =>
+    t.setAttribute("aria-expanded", t.classList.contains("is-on") ? "true" : "false")
+  );
+
+  tiles.forEach((tile) => {
+    tile.addEventListener("click", () => {
+      const key = tile.getAttribute("data-key");
+      setActiveTile(tile);
+      render(key);
+      scrollToPanel();
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
