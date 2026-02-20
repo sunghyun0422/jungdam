@@ -33,13 +33,27 @@
       </button>
     </form>
 
-    <div id="result" style="margin-top:18px;"></div>
+    <!-- ✅ 검색 결과 -->
+    <section style="margin-top:18px;">
+      <div id="result"></div>
+    </section>
+
+    <!-- ✅ 검색 결과가 없더라도 보여줄: 최근 글 -->
+    <section id="recentWrap" style="margin-top:26px;display:none;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;">
+        <h2 style="margin:0;font-size:16px;font-weight:900;">최근 글</h2>
+        <a href="./news.html" style="font-size:13px;opacity:.75;text-decoration:none;">전체 보기 →</a>
+      </div>
+      <div id="recentList" style="display:grid;gap:10px;max-width:980px;"></div>
+    </section>
+
   </main>
 
   <div id="footer"></div>
 
   <script src="./script.js"></script>
   <script>
+    // ✅ 1) 정적 페이지 검색 대상(기존 유지)
     const pages = [
       { title:"Company - Story", url:"./company.html", tags:["company","스토리","소개","정담"] },
       { title:"Company - Core Value", url:"./company-value.html", tags:["core","value","핵심가치","가치"] },
@@ -63,41 +77,150 @@
       { title:"Career - 지원", url:"./recruit-apply.html", tags:["지원","apply"] },
     ];
 
+    // ✅ 2) 쿼리 파싱
     const params = new URLSearchParams(location.search);
     const q = (params.get("q") || "").trim();
     const qEl = document.getElementById("q");
     const qText = document.getElementById("qText");
     const result = document.getElementById("result");
 
+    // 최근글 영역
+    const recentWrap = document.getElementById("recentWrap");
+    const recentList = document.getElementById("recentList");
+
     qEl.value = q;
     qText.textContent = q ? `검색어: "${q}"` : "검색어를 입력하세요.";
 
-    function esc(s){ return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
+    function norm(s){ return String(s || "").toLowerCase(); }
 
-    if(!q){
-      result.innerHTML = `<p style="opacity:.7;margin:14px 0 0;">결과가 여기에 표시됩니다.</p>`;
-    }else{
-      const needle = q.toLowerCase();
-      const hits = pages.filter(p => {
-        const hay = (p.title + " " + p.tags.join(" ")).toLowerCase();
+    function card(href, top, title, desc){
+      return `
+        <a href="${href}" style="display:block;text-decoration:none;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:14px 14px;background:rgba(0,0,0,.015);">
+          ${top ? `<div style="font-size:12px;font-weight:900;letter-spacing:.02em;opacity:.7;margin-bottom:6px;">${esc(top)}</div>` : ``}
+          <div style="font-weight:900;margin-bottom:6px;">${esc(title)}</div>
+          ${desc ? `<div style="opacity:.7;font-size:13px;line-height:1.5;">${esc(desc)}</div>` : ``}
+        </a>
+      `;
+    }
+
+    function renderEmpty(){
+      result.innerHTML = `<p style="opacity:.7;margin:14px 0 0;">검색어를 입력하면 결과가 표시됩니다.</p>`;
+    }
+
+    function renderSearch(pageHits, newsHits, hadNewsFile){
+      // 검색을 실제로 한 경우(q 있음)만 호출됨
+      const total = pageHits.length + newsHits.length;
+
+      // 결과 없으면 "없다" 보여주고 끝(아래 최근 글은 별도로 보여줌)
+      if(total === 0){
+        result.innerHTML = `<p style="margin:14px 0 0;">검색 결과가 없습니다.</p>`;
+        return;
+      }
+
+      result.innerHTML = `
+        <div style="margin-top:14px;max-width:980px;">
+          <div style="opacity:.75;margin-bottom:10px;font-size:13px;">
+            총 <b>${total}</b>건 (페이지 ${pageHits.length}${hadNewsFile ? ` · 글 ${newsHits.length}` : ``})
+          </div>
+
+          ${pageHits.length ? `
+            <section style="margin-bottom:18px;">
+              <h2 style="margin:0 0 10px;font-size:16px;font-weight:900;">페이지</h2>
+              <div style="display:grid;gap:10px;">
+                ${pageHits.map(p => card(p.url, "PAGE", p.title, p.url)).join("")}
+              </div>
+            </section>
+          ` : ""}
+
+          ${hadNewsFile && newsHits.length ? `
+            <section>
+              <h2 style="margin:0 0 10px;font-size:16px;font-weight:900;">글</h2>
+              <div style="display:grid;gap:10px;">
+                ${newsHits.map(n => card(
+                  `./news-detail.html?id=${encodeURIComponent(n.id)}`,
+                  `${(n.category || "NEWS")} · ${n.date || ""}`.trim(),
+                  n.title || "제목 없음",
+                  n.summary || ""
+                )).join("")}
+              </div>
+            </section>
+          ` : ""}
+        </div>
+      `;
+    }
+
+    async function loadNews(){
+      // news.json이 없으면 조용히 null
+      try{
+        const res = await fetch("./data/news.json", { cache: "no-store" });
+        if(!res.ok) return { ok:false, items:[] };
+        const items = await res.json();
+        return { ok:true, items: Array.isArray(items) ? items : [] };
+      }catch(e){
+        return { ok:false, items:[] };
+      }
+    }
+
+    function renderRecent(newsItems){
+      // 최근 글 6개 노출(원하면 숫자 바꾸면 됨)
+      if(!newsItems || newsItems.length === 0) return;
+
+      const sorted = [...newsItems].sort((a,b) => (String(a.date||"") < String(b.date||"") ? 1 : -1));
+      const top = sorted.slice(0, 6);
+
+      recentList.innerHTML = top.map(n => card(
+        `./news-detail.html?id=${encodeURIComponent(n.id)}`,
+        `${(n.category || "NEWS")} · ${n.date || ""}`.trim(),
+        n.title || "제목 없음",
+        n.summary || ""
+      )).join("");
+
+      recentWrap.style.display = "block";
+    }
+
+    async function run(){
+      const news = await loadNews(); // {ok, items}
+
+      // ✅ 최근 글은 검색어가 있든 없든 보여주고 싶으면 항상 렌더
+      renderRecent(news.items);
+
+      if(!q){
+        renderEmpty();
+        return;
+      }
+
+      const needle = norm(q);
+
+      // 페이지 검색
+      const pageHits = pages.filter(p => {
+        const hay = norm(p.title + " " + (p.tags || []).join(" "));
         return hay.includes(needle);
       });
 
-      if(hits.length === 0){
-        result.innerHTML = `<p style="margin:14px 0 0;">검색 결과가 없습니다.</p>`;
-      }else{
-        result.innerHTML = `
-          <div style="margin-top:14px;display:grid;gap:10px;max-width:900px;">
-            ${hits.map(p => `
-              <a href="${p.url}" style="display:block;text-decoration:none;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:14px 14px;background:rgba(0,0,0,.015);">
-                <div style="font-weight:900;margin-bottom:6px;">${esc(p.title)}</div>
-                <div style="opacity:.7;font-size:13px;">${esc(p.url)}</div>
-              </a>
-            `).join("")}
-          </div>
-        `;
+      // 글 검색(news.json 있을 때만)
+      let newsHits = [];
+      if(news.ok){
+        newsHits = news.items.filter(n => {
+          const hay = norm(
+            (n.title || "") + " " +
+            (n.summary || "") + " " +
+            (n.content || "") + " " +
+            (n.category || "")
+          );
+          return hay.includes(needle);
+        });
+        newsHits.sort((a,b) => (String(a.date||"") < String(b.date||"") ? 1 : -1));
       }
+
+      renderSearch(pageHits, newsHits, news.ok);
     }
+
+    run();
   </script>
 </body>
 </html>

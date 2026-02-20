@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NEWS | 정담</title>
+  <meta name="description" content="정담의 공지/소식을 전합니다." />
+
+  <link rel="icon" href="/assets/favicon.ico?v=3" />
+  <link rel="apple-touch-icon" href="/assets/icon-192.png" />
+  <link rel="manifest" href="/assets/site.webmanifest" />
+  <meta name="theme-color" content="#1F5E3B" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">본문 바로가기</a>
+
+  <div id="header"></div>
+
+  <main id="main" class="container" style="padding:44px 16px 70px;">
+    <h1 style="margin:0 0 10px;font-size:40px;letter-spacing:-.02em;font-weight:950;">NEWS</h1>
+    <p style="margin:0 0 18px;opacity:.7;">정담의 공지/소식을 전합니다.</p>
+
+    <!-- ✅ NEWS 내 검색 -->
+    <section style="margin:18px 0 18px;">
+      <form action="./news.html" method="get" style="display:flex;gap:10px;max-width:820px;align-items:center;">
+        <input
+          name="q"
+          id="newsQ"
+          type="search"
+          placeholder="NEWS에서 검색 (제목/요약/본문)"
+          style="flex:1;height:48px;border-radius:16px;border:1px solid rgba(0,0,0,.12);padding:0 14px;font-size:15px;"
+        />
+        <button type="submit"
+          style="height:48px;padding:0 16px;border-radius:16px;border:1px solid rgba(0,0,0,.12);background:#111;color:#fff;font-weight:900;cursor:pointer;">
+          검색
+        </button>
+        <a id="clearBtn" href="./news.html"
+           style="display:none;height:48px;align-items:center;padding:0 14px;border-radius:16px;border:1px solid rgba(0,0,0,.12);text-decoration:none;opacity:.8;">
+          초기화
+        </a>
+      </form>
+
+      <!-- ✅ q 있을 때만 보이게 -->
+      <p id="newsQText" style="margin:10px 0 0;opacity:.7;font-size:13px;display:none;"></p>
+    </section>
+
+    <!-- ✅ 검색 결과 영역 (q 있을 때만 표시) -->
+    <section id="searchWrap" style="display:none;">
+      <div id="newsList" style="display:grid;gap:12px;max-width:980px;"></div>
+
+      <div id="newsEmpty" style="display:none;margin-top:14px;">
+        <p style="margin:0;opacity:.85;">검색 결과가 없습니다.</p>
+        <p style="margin:6px 0 0;opacity:.65;font-size:13px;">다른 키워드로 검색해보세요.</p>
+      </div>
+    </section>
+
+    <!-- ✅ 항상 노출: 최근 글 -->
+    <section id="recentWrap" style="margin-top:28px;display:none;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;">
+        <h2 style="margin:0;font-size:16px;font-weight:950;letter-spacing:-.01em;">최근 글</h2>
+      </div>
+      <div id="recentList" style="display:grid;gap:12px;max-width:980px;"></div>
+    </section>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="./script.js"></script>
+  <script>
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[m]));
+    }
+    function norm(s){ return String(s || "").toLowerCase(); }
+
+    function card(n){
+      const top = `${(n.category || "NEWS")} · ${n.date || ""}`.trim();
+      const href = `./news-detail.html?id=${encodeURIComponent(n.id)}`;
+      return `
+        <a href="${href}" style="display:block;text-decoration:none;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:16px 16px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.03);">
+          <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
+            <span style="font-weight:900;font-size:13px;opacity:.8;">${esc(top)}</span>
+          </div>
+          <div style="font-weight:950;font-size:18px;letter-spacing:-.01em;margin-bottom:6px;">
+            ${esc(n.title || "제목 없음")}
+          </div>
+          <div style="opacity:.72;font-size:14px;line-height:1.55;">
+            ${esc(n.summary || "")}
+          </div>
+        </a>
+      `;
+    }
+
+    const params = new URLSearchParams(location.search);
+    const q = (params.get("q") || "").trim();
+
+    const input = document.getElementById("newsQ");
+    const qText = document.getElementById("newsQText");
+    const clearBtn = document.getElementById("clearBtn");
+
+    const searchWrap = document.getElementById("searchWrap");
+    const listEl = document.getElementById("newsList");
+    const emptyEl = document.getElementById("newsEmpty");
+
+    const recentWrap = document.getElementById("recentWrap");
+    const recentList = document.getElementById("recentList");
+
+    input.value = q;
+
+    // ✅ q가 있을 때만 상태 문구/초기화/검색결과 영역 보이기
+    if(q){
+      qText.style.display = "block";
+      qText.textContent = `검색어: "${q}"`;
+      clearBtn.style.display = "inline-flex";
+      searchWrap.style.display = "block";
+    }else{
+      qText.textContent = "";
+      qText.style.display = "none";
+      clearBtn.style.display = "none";
+      searchWrap.style.display = "none";
+    }
+
+    async function loadNews(){
+      try{
+        const res = await fetch("./data/news.json", { cache: "no-store" });
+        if(!res.ok) return [];
+        const items = await res.json();
+        return Array.isArray(items) ? items : [];
+      }catch(e){
+        return [];
+      }
+    }
+
+    function matches(n, needle){
+      const hay = norm(
+        (n.title || "") + " " +
+        (n.summary || "") + " " +
+        (n.content || "") + " " +
+        (n.category || "")
+      );
+      return hay.includes(needle);
+    }
+
+    function renderRecent(items){
+      if(!items || items.length === 0) return;
+      const top = items.slice(0, 6);
+      recentList.innerHTML = top.map(card).join("");
+      recentWrap.style.display = "block";
+    }
+
+    (async function run(){
+      const items = await loadNews();
+
+      // 최신순
+      items.sort((a,b) => (String(a.date||"") < String(b.date||"") ? 1 : -1));
+
+      // ✅ 최근 글은 항상 표시
+      renderRecent(items);
+
+      // ✅ 검색어 없으면: 검색 결과 영역은 안 씀(최근 글만 보여주기)
+      if(!q) return;
+
+      // ✅ 검색어 있으면: 검색 결과 표시
+      const needle = norm(q);
+      const shown = items.filter(n => matches(n, needle));
+
+      if(shown.length === 0){
+        listEl.innerHTML = "";
+        emptyEl.style.display = "block";
+        return;
+      }
+
+      emptyEl.style.display = "none";
+      listEl.innerHTML = shown.map(card).join("");
+    })();
+  </script>
+</body>
+</html>

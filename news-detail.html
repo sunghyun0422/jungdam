@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NEWS | 정담</title>
+  <meta name="description" content="정담 공지/소식 상세" />
+
+  <link rel="icon" href="/assets/favicon.ico?v=3" />
+  <link rel="apple-touch-icon" href="/assets/icon-192.png" />
+  <link rel="manifest" href="/assets/site.webmanifest" />
+  <meta name="theme-color" content="#1F5E3B" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+
+<div id="header"></div>
+
+<main id="main">
+
+  <!-- ✅ IMAGE 없는 HERO -->
+  <section style="padding:100px 0 60px;background:#fff;border-bottom:1px solid rgba(0,0,0,.06);">
+    <div class="container" style="max-width:1000px;">
+      <p style="font-size:13px;font-weight:900;letter-spacing:.12em;color:#1F5E3B;margin:0 0 16px;">
+        NEWS
+      </p>
+
+      <h1 id="newsTitle"
+          style="font-size:48px;line-height:1.15;margin:0 0 20px;font-weight:950;letter-spacing:-.02em;">
+        제목 로딩중...
+      </h1>
+
+      <p id="newsSummary"
+         style="font-size:18px;opacity:.7;margin:0 0 36px;">
+      </p>
+
+      <div style="display:flex;gap:30px;font-size:14px;opacity:.75;">
+        <div>
+          <strong style="display:block;font-weight:900;margin-bottom:4px;">카테고리</strong>
+          <span id="newsCategory"></span>
+        </div>
+        <div>
+          <strong style="display:block;font-weight:900;margin-bottom:4px;">등록일</strong>
+          <span id="newsDate"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section style="padding:70px 0;">
+    <div class="container" style="max-width:1000px;">
+      <div id="newsContent"
+           style="font-size:16px;line-height:1.9;white-space:pre-line;">
+      </div>
+
+      <div style="margin-top:50px;">
+        <a href="./news.html" class="btn btn--line">목록으로</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="footer"></div>
+
+<script src="./script.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  async function load(){
+    try{
+      const res = await fetch("./data/news.json", { cache:"no-store" });
+      if(!res.ok) return null;
+      const items = await res.json();
+      return items.find(n => n.id === id);
+    }catch(e){
+      return null;
+    }
+  }
+
+  (async function(){
+    const data = await load();
+
+    if(!data){
+      document.getElementById("newsTitle").textContent = "글을 찾을 수 없습니다.";
+      return;
+    }
+
+    document.title = `${data.title} | 정담`;
+
+    document.getElementById("newsTitle").textContent = data.title;
+    document.getElementById("newsSummary").textContent = data.summary;
+    document.getElementById("newsCategory").textContent = data.category;
+    document.getElementById("newsDate").textContent = data.date;
+    document.getElementById("newsContent").textContent = data.content;
+  })();
+</script>
+
+</body>
+</html>
