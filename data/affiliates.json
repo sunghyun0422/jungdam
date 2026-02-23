@@ -1,0 +1,19 @@
+{
+  "title": "COLLABORATION",
+  "headline": "협업 브랜드",
+  "desc": "정담의 기준과 방향을 공유하거나 함께 프로젝트를 운영하는 브랜드입니다.",
+  "items": [
+    {
+      "name": "조선한그릇",
+      "tag": "FAMILY BRAND",
+      "url": "https://joseonbowl.vercel.app/",
+      "logo": "./assets/joseonbowl-logo.png"
+    },
+    {
+      "name": "Skyriders",
+      "tag": "COLLAB BRAND",
+      "url": "https://skyriders-site.vercel.app/",
+      "logo": "./assets/skyriders-logo.png"
+    }
+  ]
+}

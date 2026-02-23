@@ -483,3 +483,50 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 초기: 해시 있으면 그거, 없으면 첫 탭
   activate(location.hash);
 })();
+// ✅ Collaboration / Affiliates (data-driven)
+// ✅ Collaboration / Affiliates (logo-only, data-driven)
+(async function loadAffiliates(){
+  const head = document.getElementById("affHead");
+  const grid = document.getElementById("affGrid");
+  if(!head || !grid) return;
+
+  try{
+    const res = await fetch("./data/affiliates.json", { cache: "no-store" });
+    if(!res.ok) throw new Error("affiliates.json fetch failed");
+    const data = await res.json();
+
+    head.innerHTML = `
+      <div>
+        <p class="affK">${data.title || "COLLABORATION"}</p>
+        <h2 class="affT">${data.headline || "협업 브랜드"}</h2>
+        <p class="affD">${data.desc || ""}</p>
+      </div>
+    `;
+
+    const items = Array.isArray(data.items) ? data.items : [];
+    grid.innerHTML = items.map((it) => {
+      const name = it.name || "Brand";
+      const url  = it.url  || "#";
+      const logo = it.logo || "";
+
+      // 로고만 노출. 텍스트는 접근성/툴팁으로만.
+      return `
+        <a class="affLogoLink"
+           href="${url}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="${name} 사이트로 이동 (새 창)"
+           title="${name}">
+          <img class="affLogoImg"
+               src="${logo}"
+               alt="${name} 로고"
+               loading="lazy" />
+        </a>
+      `;
+    }).join("");
+
+  }catch(err){
+    const section = grid.closest(".affiliates");
+    if(section) section.style.display = "none";
+  }
+})();
